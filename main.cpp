@@ -4,21 +4,25 @@
 #include <vector>
 #include <iostream>
 #include <intrin.h>
+#include <filesystem>
 
 using namespace std;
+using std::filesystem::directory_iterator;
+using std::filesystem::recursive_directory_iterator;
 
 static void updatePal(fstream* stream);
 
 int main() {
     for(const auto & file : recursive_directory_iterator("b2w2_rom")) {
         string pstr = file.path().string();
-        string command = string(NDS_TOOL) + " -x \"" + pstr + "\" -9 temp\\arm9.bin -7 temp\\arm7.bin -y9 temp\\y9.bin -y7 temp\\y7.bin -d data -y temp\\overlay -t temp\\banner.bin -h temp\\header.bin";
+        string command = "tools\\ndstool.exe -x \"" + pstr + "\" -9 temp\\arm9.bin -7 temp\\arm7.bin -y9 temp\\y9.bin -y7 temp\\y7.bin -d data -y temp\\overlay -t temp\\banner.bin -h temp\\header.bin";
+        cout << command << endl;
         system(command.c_str());
         break;
     }
     cout << "Preparing the ROM! (this may take awhile)" << endl;
     cout << "Replacing battle files..." << endl;
-    system("knarc -u .\\data\\a\\0\\0\\4 -d mon_data\\extracted");
+    system("tools\\knarc.exe -u .\\data\\a\\0\\0\\4 -d mon_data\\extracted");
     int c = 0;
     while(c < 14980) {
         int zeros;
@@ -98,11 +102,11 @@ int main() {
         system(cmd.c_str());
         c++;
     }
-    system("knarc -p .\\data\\a\\0\\0\\4 -d mon_data\\extracted");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\0\\4 -d mon_data\\extracted");
     cout << "Battle files updated!" << endl;
     
     cout << "Replacing Pokemon icons..." << endl;
-    system("knarc -u .\\data\\a\\0\\0\\7 -d .\\mon_data\\icons");
+    system("tools\\knarc.exe -u .\\data\\a\\0\\0\\7 -d .\\mon_data\\icons");
     c = 8;
     while(c < 1510) {
         
@@ -118,11 +122,11 @@ int main() {
         system(cmd.c_str());
         c++;
     }
-    system("knarc -p .\\data\\a\\0\\0\\7 -d .\\mon_data\\icons");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\0\\7 -d .\\mon_data\\icons");
     cout << "Pokemon icons updated!" << endl;
     
     cout << "Removing type icons..." << endl;
-    system("knarc -u .\\data\\a\\0\\8\\2 -d .\\mon_data\\type_icons");
+    system("tools\\knarc.exe -u .\\data\\a\\0\\8\\2 -d .\\mon_data\\type_icons");
     c = 34;
     while(c < 56) {
         int zeros;
@@ -137,14 +141,18 @@ int main() {
         system(cmd.c_str());
         c++;
     }
-    system("knarc -p .\\data\\a\\0\\8\\2 -d .\\mon_data\\type_icons");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\8\\2 -d .\\mon_data\\type_icons");
     cout << "Type icons removed!" << endl;
     
     cout << "Replacing text files..." << endl;
-    system("knarc -u .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
+    system("tools\\knarc.exe -u .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
     system("copy .\\mon_data\\text_modified .\\mon_data\\text");
-    system("knarc -p .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
     cout << "Text files replaced!" << endl;
+    
+    string command = "tools\\ndstool.exe -c \"Pokemon_Plush_Mode.nds\" -9 temp\\arm9.bin -7 temp\\arm7.bin -y9 temp\\y9.bin -y7 temp\\y7.bin -d data -y temp\\overlay -t temp\\banner.bin -h temp\\header.bin";
+    system(command.c_str());
+    
 }
 
 typedef struct colour {

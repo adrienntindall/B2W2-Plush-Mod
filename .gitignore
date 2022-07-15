@@ -1,1 +1,3 @@
 *.nds
+*.bin
+data/*
