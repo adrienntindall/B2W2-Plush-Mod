@@ -102,6 +102,7 @@ int main() {
         system(cmd.c_str());
         c++;
     }
+    system("del /f mon_data\\extracted\\4_0.bin >nul 2>&1"); //no idea how this file gets here but it messes things up LOL
     system("tools\\knarc.exe -p .\\data\\a\\0\\0\\4 -d mon_data\\extracted");
     cout << "Battle files updated!" << endl;
     
@@ -111,7 +112,7 @@ int main() {
     while(c < 1510) {
         
         int zeros;
-        string cmd = "copy plush_icon_rgcn.bin ";
+        string cmd = "copy files\\plush_icon_rgcn.bin ";
         cmd += ".\\mon_data\\icons\\7_";
         zeros = 7 - floor(log10(c));
         for(int z = 0; z < zeros; z++) {
@@ -130,7 +131,7 @@ int main() {
     c = 34;
     while(c < 56) {
         int zeros;
-        string cmd = "copy type_null.bin ";
+        string cmd = "copy files\\type_null.bin ";
         cmd += ".\\mon_data\\type_icons\\2_";
         zeros = 7 - floor(log10(c));
         for(int z = 0; z < zeros; z++) {
