@@ -150,6 +150,18 @@ int main() {
     system("copy .\\mon_data\\text_modified .\\mon_data\\text");
     system("tools\\knarc.exe -p .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
     cout << "Text files replaced!" << endl;
+    system("tools\\knarc.exe -u .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
+    system("copy .\\mon_data\\text_modified .\\mon_data\\text");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\0\\2 -d .\\mon_data\\text");
+    
+    cout << "Replacing potions with rare candies in the shop..." << endl;
+    system("tools\\knarc.exe -u .\\data\\a\\2\\8\\2 -d .\\mon_data\\shop_items");
+    system("copy .\\files\\shop .\\mon_data\\shop_items");
+    system("tools\\knarc.exe -p .\\data\\a\\2\\8\\2 -d .\\mon_data\\shop_items");
+
+    system("tools\\knarc.exe -u .\\data\\a\\0\\2\\4 -d .\\mon_data\\items");
+    system("copy .\\files\\item_data .\\mon_data\\items");
+    system("tools\\knarc.exe -p .\\data\\a\\0\\2\\4 -d .\\mon_data\\items");    
     
     string command = "tools\\ndstool.exe -c \"Pokemon_Plush_Mode.nds\" -9 temp\\arm9.bin -7 temp\\arm7.bin -y9 temp\\y9.bin -y7 temp\\y7.bin -d data -y temp\\overlay -t temp\\banner.bin -h temp\\header.bin";
     system(command.c_str());
